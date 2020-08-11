@@ -1,0 +1,24 @@
+language: java
+install: mvn install
+
+sudo: false
+
+jdk:
+  openjdk14
+
+services: postgresql
+
+
+after_success:
+  bash <(curl -s https://codecov.io/bash)
+
+notifications:
+  email:
+    recipients:
+      g1377@protonmail.com
+    on_success: never
+    on_failure: always
+
+env:
+  global:
+    CODECOV_TOKEN="ba816220-5971-4033-9b31-ea8b2fc5c2a3"
