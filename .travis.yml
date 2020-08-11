@@ -1,13 +1,9 @@
 language: java
-install: mvn install
 
 sudo: false
 
 jdk:
   openjdk14
-
-services: postgresql
-
 
 after_success:
   bash <(curl -s https://codecov.io/bash)
