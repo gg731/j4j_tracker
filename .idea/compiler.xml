@@ -6,9 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="j4j_tracker" />
+        <module name="Tasks4j" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="13" />
+    <bytecodeTargetLevel target="13">
+      <module name="tasks" target="13" />
+      <module name="todolist" target="13" />
+    </bytecodeTargetLevel>
   </component>
 </project>
