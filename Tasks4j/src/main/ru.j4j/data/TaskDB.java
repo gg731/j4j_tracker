@@ -3,13 +3,16 @@ package data;
 import model.Item;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.util.List;
+import java.util.function.Function;
 
 public class TaskDB implements Task {
+
     private final StandardServiceRegistry registry
             = new StandardServiceRegistryBuilder().configure().build();
     private final SessionFactory sf
@@ -26,42 +29,50 @@ public class TaskDB implements Task {
         return Lazy.INST;
     }
 
+    private <T> T tx(final Function<Session, T> command) {
+        final Session session = sf.openSession();
+        final Transaction tx = session.beginTransaction();
+        try {
+            T rsl = command.apply(session);
+            tx.commit();
+            return rsl;
+        } catch (final Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
     @Override
     public void addTask(Item item) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        session.save(item);
-        session.getTransaction().commit();
-        session.close();
+        tx(session ->
+                session.save(item));
     }
 
     @Override
     public void doneTaskById(int id, int done) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        session.createQuery("UPDATE Item SET done = " + done + " WHERE id = " + id).executeUpdate();
-        session.getTransaction().commit();
-        session.close();
+        tx(session ->
+                session.createQuery("UPDATE Item SET done = :done WHERE id = :id")
+                        .setParameter("done", done).setParameter("id", id)
+                        .executeUpdate());
     }
 
     @Override
     public int checkTaskById(int id) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        List<Item> items = session.createQuery("FROM Item WHERE id= " + id).list();
-        session.getTransaction().commit();
-        session.close();
-        return items.get(0).getDone();
+        return tx(session -> {
+            Item item = (Item) session.createQuery("FROM Item WHERE id= :id")
+                    .setParameter("id", id)
+                    .list().get(0);
+
+            return item.getDone();
+        });
     }
 
     @Override
     public List<Item> findAllTask() {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        List<Item> items = session.createQuery("FROM Item").list();
-        session.getTransaction().commit();
-        session.close();
-        return items;
+        return tx(session ->
+                session.createQuery("FROM Item").list());
     }
 }
 
