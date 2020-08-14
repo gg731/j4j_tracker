@@ -21,7 +21,7 @@ public class TableController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
-        String tableJson = new Gson().toJson(new TaskDB().findAllTask());
+        String tableJson = new Gson().toJson(TaskDB.getInstance().findAllTask());
 
         resp.setContentType("JSON");
         resp.setCharacterEncoding("UTF-8");

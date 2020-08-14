@@ -1,5 +1,6 @@
 package controller;
 
+import data.Task;
 import data.TaskDB;
 import model.Item;
 
@@ -19,13 +20,13 @@ public class DoneController extends HttpServlet {
         int id = Integer.valueOf(req.getParameter("id"));
         int done = Integer.valueOf(req.getParameter("done"));
 
-        new TaskDB().doneTaskById(Integer.valueOf(id), done);
+        TaskDB.getInstance().doneTaskById(Integer.valueOf(id), done);
         resp.sendRedirect(req.getContextPath() + "/tasks");
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        new TaskDB().addTask(
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        TaskDB.getInstance().addTask(
                 new Item(
                         req.getParameter("task"),
                         req.getParameter("about")

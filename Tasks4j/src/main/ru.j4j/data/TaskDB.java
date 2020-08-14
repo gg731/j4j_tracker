@@ -15,6 +15,17 @@ public class TaskDB implements Task {
     private final SessionFactory sf
             = new MetadataSources(registry).buildMetadata().buildSessionFactory();
 
+    private TaskDB() {
+    }
+
+    private static final class Lazy {
+        private static final Task INST = new TaskDB();
+    }
+
+    public static Task getInstance() {
+        return Lazy.INST;
+    }
+
     @Override
     public void addTask(Item item) {
         Session session = sf.openSession();
