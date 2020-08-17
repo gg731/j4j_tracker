@@ -20,44 +20,18 @@ public class Item {
     @Column(name = "done")
     private int done;
 
+    @ManyToOne
+    @JoinColumn(name = "user")
+    private User user;
+
     public Item() {
     }
 
-    public Item(String task, String about) {
+    public Item(String task, String about, User user) {
         this.task = task;
         this.about = about;
+        this.user = user;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTask() {
-        return task;
-    }
-
-    public void setTask(String task) {
-        this.task = task;
-    }
-
-    public String getAbout() {
-        return about;
-    }
-
-    public void setAbout(String about) {
-        this.about = about;
-    }
-
-    public int getDone() {
-        return done;
-    }
-
-    public void setDone(int done) {
-        this.done = done;
-    }
 }
 

@@ -1,10 +1,9 @@
 package controller;
 
-import data.Task;
 import data.TaskDB;
 import model.Item;
+import model.User;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +16,11 @@ public class DoneController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
 
-        int id = Integer.valueOf(req.getParameter("id"));
-        int done = Integer.valueOf(req.getParameter("done"));
+        TaskDB.getInstance().doneTaskById(
+                Integer.valueOf(req.getParameter("id")),
+                Integer.valueOf(req.getParameter("done"))
+        );
 
-        TaskDB.getInstance().doneTaskById(Integer.valueOf(id), done);
         resp.sendRedirect(req.getContextPath() + "/tasks");
     }
 
@@ -29,7 +29,8 @@ public class DoneController extends HttpServlet {
         TaskDB.getInstance().addTask(
                 new Item(
                         req.getParameter("task"),
-                        req.getParameter("about")
+                        req.getParameter("about"),
+                        ((User) req.getSession().getAttribute("user"))
                 ));
 
         resp.sendRedirect(req.getContextPath() + "/tasks");

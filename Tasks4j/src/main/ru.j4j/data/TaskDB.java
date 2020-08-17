@@ -1,6 +1,8 @@
 package data;
 
 import model.Item;
+import model.Role;
+import model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -59,20 +61,51 @@ public class TaskDB implements Task {
     }
 
     @Override
-    public int checkTaskById(int id) {
-        return tx(session -> {
-            Item item = (Item) session.createQuery("FROM Item WHERE id= :id")
-                    .setParameter("id", id)
-                    .list().get(0);
+    public List<Item> findAllTask() {
+        return tx(session ->
+                session.createQuery("FROM Item").list());
+    }
 
-            return item.getDone();
+    @Override
+    public User findUserByUsername(String username) {
+        return tx(session -> {
+            List<User> users = session.createQuery("FROM User WHERE username =:username")
+                    .setParameter("username", username)
+                    .list();
+            if (!users.isEmpty()) {
+                return users.get(0);
+            }
+            return null;
         });
     }
 
     @Override
-    public List<Item> findAllTask() {
-        return tx(session ->
-                session.createQuery("FROM Item").list());
+    public List<Role> getAllRoles() {
+        return tx(session -> session.createQuery("FROM Role").list());
+    }
+
+    @Override
+    public void addUser(User user) {
+        tx(session -> session.save(user));
+    }
+
+    @Override
+    public Role getRoleById(String id) {
+        return tx(session -> {
+            Role role = (Role) session.createQuery("FROM Role where id=:id")
+                    .setParameter("id", id)
+                    .list().get(0);
+            return role;
+        });
+    }
+
+    @Override
+    public List<Item> findAllForUserId(int id) {
+        return tx(session -> {
+            List<Item> items = session.createQuery("FROM Item where user=" + id).list();
+
+            return items;
+        });
     }
 }
 
