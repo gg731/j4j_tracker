@@ -32,7 +32,5 @@ public class LoginController extends HttpServlet {
             req.setAttribute("authError", "Не верная почта или пароль");
             req.getRequestDispatcher("login.jsp").forward(req, resp);
         }
-
-
     }
 }
