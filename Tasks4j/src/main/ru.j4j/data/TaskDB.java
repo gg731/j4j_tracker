@@ -62,8 +62,7 @@ public class TaskDB implements Task {
 
     @Override
     public List<Item> findAllTask() {
-        return tx(session ->
-                session.createQuery("FROM Item").list());
+        return tx(session -> session.createQuery("FROM Item").list());
     }
 
     @Override
@@ -91,21 +90,12 @@ public class TaskDB implements Task {
 
     @Override
     public Role getRoleById(String id) {
-        return tx(session -> {
-            Role role = (Role) session.createQuery("FROM Role where id=:id")
-                    .setParameter("id", id)
-                    .list().get(0);
-            return role;
-        });
+        return (Role) tx(session -> session.createQuery("FROM Role where id=" + id).list().get(0));
     }
 
     @Override
     public List<Item> findAllForUserId(int id) {
-        return tx(session -> {
-            List<Item> items = session.createQuery("FROM Item where user=" + id).list();
-
-            return items;
-        });
+        return tx(session -> session.createQuery("FROM Item where user=" + id).list());
     }
 }
 
