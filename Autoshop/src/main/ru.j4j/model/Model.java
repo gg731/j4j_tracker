@@ -12,11 +12,16 @@ public class Model {
 
     private String model;
 
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
     public Model() {
     }
 
-    public Model(String model) {
+    public Model(String model, Brand brand) {
         this.model = model;
+        this.brand = brand;
     }
 
     public int getId() {
@@ -29,5 +34,13 @@ public class Model {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 }
