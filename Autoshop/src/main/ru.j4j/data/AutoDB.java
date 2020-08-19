@@ -1,6 +1,8 @@
 package data;
 
 import model.Brand;
+import model.Driver;
+import model.Engine;
 import model.Model;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -53,11 +55,16 @@ public class AutoDB implements Store {
         return tx(session -> session.createQuery("from Brand ").list());
     }
 
-//    @Override
-//    public Brand addBrand(Brand brand) {
-//        return tx(session -> {
-//            brand.getModel().stream().forEach(session::save);
-//        });
-//    }
+    @Override
+    public Driver findDriverById(int id) {
+        return (Driver) tx(session -> session.createQuery(
+                "from Driver where id=:id").setParameter("id", id).list().get(0));
+    }
+
+    @Override
+    public Engine findEngineById(int id) {
+        return (Engine) tx(session -> session.createQuery(
+                "from Engine where id=:id").setParameter("id", id).list().get(0));
+    }
 
 }
