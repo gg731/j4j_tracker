@@ -1,9 +1,8 @@
 package data;
 
 import model.Brand;
+import model.Car;
 import model.Driver;
-import model.Engine;
-import model.Model;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -11,6 +10,8 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import javax.persistence.Entity;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.function.Function;
 
@@ -46,25 +47,38 @@ public class AutoDB implements Store {
     }
 
     @Override
-    public <T> T add(T t) {
-        return (T) tx(session -> session.save(t));
+    public int add(Object t) {
+        return (int) tx(session -> session.save(t));
     }
 
     @Override
-    public List<Brand> getAllBrands() {
-        return tx(session -> session.createQuery("from Brand ").list());
+    public <T> List<T> getAll(Class<T> t) {
+        return tx(session -> session.createQuery("from " + t.getName()).list());
     }
 
     @Override
-    public Driver findDriverById(int id) {
-        return (Driver) tx(session -> session.createQuery(
-                "from Driver where id=:id").setParameter("id", id).list().get(0));
+    public <T> T findById(Class<T> c, int id) {
+        return (T) tx(session ->
+                session.createQuery("from " + c.getName() + " where id = :id")
+                        .setParameter("id", id).list().get(0));
     }
 
     @Override
-    public Engine findEngineById(int id) {
-        return (Engine) tx(session -> session.createQuery(
-                "from Engine where id=:id").setParameter("id", id).list().get(0));
+    public Driver findDriverByLogin(String login) {
+        try {
+            return (Driver) tx(session ->
+                    session.createQuery("from Driver where login = " + login).list().get(0));
+        } catch (Exception e) {
+            return null;
+        }
     }
 
+    @Override
+    public void update(Object e) {
+        Session session = sf.openSession();
+        session.beginTransaction();
+        session.update(e);
+        session.getTransaction().commit();
+        session.close();
+    }
 }

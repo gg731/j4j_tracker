@@ -1,8 +1,6 @@
 package model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "car")
@@ -15,25 +13,26 @@ public class Car {
     private String name;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "engine_id")
-    private Engine engine;
-
-    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "model_id")
     private Model model;
+
+    private int price;
+
+    private int status;
+
+    private int image;
 
     public Car() {
     }
 
-    public Car(String name, Engine engine) {
+    public Car(String name) {
         this.name = name;
-        this.engine = engine;
     }
 
-    public Car(String name, Engine engine, Model model) {
+    public Car(String name, Model model, int price) {
         this.name = name;
-        this.engine = engine;
         this.model = model;
+        this.price = price;
     }
 
     public int getId() {
@@ -48,19 +47,35 @@ public class Car {
         this.name = name;
     }
 
-    public Engine getEngine() {
-        return engine;
-    }
-
-    public void setEngine(Engine engine) {
-        this.engine = engine;
-    }
-
     public Model getModel() {
         return model;
     }
 
     public void setModel(Model model) {
         this.model = model;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 }

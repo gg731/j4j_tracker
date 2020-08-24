@@ -2,16 +2,18 @@ package data;
 
 import model.Brand;
 import model.Driver;
-import model.Engine;
 
 import java.util.List;
 
 public interface Store {
-     <T> T add(T t);
+    int add(Object t);
 
-    List<Brand> getAllBrands();
+    <T> List<T> getAll(Class<T> c);
 
-    Driver findDriverById(int id);
+    <T> T findById(Class<T> c, int id);
 
-    Engine findEngineById(int id);
+    Driver findDriverByLogin(String login);
+
+    void update(Object e);
+
 }

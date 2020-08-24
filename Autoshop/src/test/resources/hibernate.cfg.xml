@@ -12,7 +12,6 @@
         <property name="show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">create</property>
 
-        <mapping class="model.Engine"/>
         <mapping class="model.Model"/>
         <mapping class="model.Car"/>
         <mapping class="model.Brand"/>

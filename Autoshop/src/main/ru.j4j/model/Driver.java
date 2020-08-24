@@ -12,9 +12,11 @@ public class Driver {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    private String login;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private String pas;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "history", joinColumns = {
             @JoinColumn(name = "id_car")},
             inverseJoinColumns = {
@@ -24,8 +26,9 @@ public class Driver {
     public Driver() {
     }
 
-    public Driver(String name) {
-        this.name = name;
+    public Driver(String login, String pas) {
+        this.login = login;
+        this.pas = pas;
     }
 
     public void addCar(Car car) {
@@ -36,11 +39,31 @@ public class Driver {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getPas() {
+        return pas;
+    }
+
+    public void setPas(String pas) {
+        this.pas = pas;
+    }
+
+    public List<Car> getCar() {
+        return car;
+    }
+
+    public void setCar(List<Car> car) {
+        this.car = car;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 }
