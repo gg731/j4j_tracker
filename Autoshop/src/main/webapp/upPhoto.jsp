@@ -51,7 +51,8 @@
     </nav>
 </div>
 <h2>Загрузить фотографию в обьявления</h2>
-<label><c:out value="${car.model.model}"/></label>
+<label>Машина: <c:out value="${car.name}"/></label>
+<label>Модель: <c:out value="${car.model.model}"/></label>
 <form action=
       <c:out value="/upimg?photoId=${car.id}"/> method="post" enctype="multipart/form-data">
     <label>Загрузите фотографию машины</label>
