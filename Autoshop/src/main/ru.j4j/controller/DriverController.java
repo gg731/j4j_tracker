@@ -20,10 +20,10 @@ public class DriverController extends HttpServlet {
         String id = req.getParameter("id");
 
         if (id != null) {
-            int status = Integer.valueOf(req.getParameter("status"));
+            int status = Utils.getOr(req.getParameter("status"));
             int rsl = status == 1 ? 0 : 1;
             Car car = AutoDB.getInst().findById(Car.class, Integer.valueOf(id));
-            car.setStatus(Integer.valueOf(rsl));
+            car.setStatus(rsl);
             AutoDB.getInst().update(car);
         }
 

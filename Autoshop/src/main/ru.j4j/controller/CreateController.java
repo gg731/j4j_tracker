@@ -5,6 +5,7 @@ import model.Brand;
 import model.Car;
 import model.Driver;
 import model.Model;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,9 +31,9 @@ public class CreateController extends HttpServlet {
         String brandId = req.getParameter("brand");
         String model = req.getParameter("model");
 
-        int price = Integer.valueOf(req.getParameter("price"));
+        int price = Utils.getOr(req.getParameter("price"));
 
-        Brand brand1 = AutoDB.getInst().findById(Brand.class, Integer.valueOf(brandId));
+        Brand brand1 = AutoDB.getInst().findById(Brand.class, Utils.getOr(brandId));
         Model model1 = new Model(model, brand1);
         Car car1 = new Car(name, model1, price);
         int id = 0;

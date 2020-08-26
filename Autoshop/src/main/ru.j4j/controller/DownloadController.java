@@ -13,7 +13,7 @@ import java.io.IOException;
 public class DownloadController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
 
         String id = req.getParameter("id");
         resp.setContentType("name=" + id);
