@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 
 @WebServlet("/create")
 public class CreateController extends HttpServlet {
@@ -35,7 +36,7 @@ public class CreateController extends HttpServlet {
 
         Brand brand1 = AutoDB.getInst().findById(Brand.class, Utils.getOr(brandId));
         Model model1 = new Model(model, brand1);
-        Car car1 = new Car(name, model1, price);
+        Car car1 = new Car(name, model1, price, new Date());
         int id = 0;
         try {
             id = AutoDB.getInst().add(car1);
@@ -47,7 +48,7 @@ public class CreateController extends HttpServlet {
         driver.addCar(AutoDB.getInst().findById(Car.class, id));
 
         AutoDB.getInst().update(driver);
-        
+
         resp.sendRedirect(req.getContextPath() + "/driver");
     }
 }

@@ -61,6 +61,9 @@ public class ImgController extends HttpServlet {
                     }
                 }
             }
+            Car car = AutoDB.getInst().findById(Car.class, Utils.getOr(photoId));
+            car.setImage(Utils.getOr(photoId));
+            AutoDB.getInst().update(car);
         } catch (FileUploadException e) {
             e.printStackTrace();
         }

@@ -16,4 +16,6 @@ public interface Store {
 
     void update(Object e);
 
+    List sortBy(String sort);
+
 }

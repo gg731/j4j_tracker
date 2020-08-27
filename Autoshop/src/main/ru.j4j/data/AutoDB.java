@@ -1,7 +1,5 @@
 package data;
 
-import model.Brand;
-import model.Car;
 import model.Driver;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,8 +8,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-import javax.persistence.Entity;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.function.Function;
 
@@ -74,6 +70,16 @@ public class AutoDB implements Store {
     }
 
     @Override
+    public List sortBy(String sort) {
+        try {
+            return tx(session ->
+                    session.createQuery("from Car order by " + sort).list());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
     public void update(Object e) {
         Session session = sf.openSession();
         session.beginTransaction();
@@ -81,4 +87,5 @@ public class AutoDB implements Store {
         session.getTransaction().commit();
         session.close();
     }
+
 }

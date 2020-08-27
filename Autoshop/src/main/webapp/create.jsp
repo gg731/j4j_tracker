@@ -50,7 +50,7 @@
         </div>
     </nav>
 </div>
-<h2>Создать обьявление</h2>
+<h2>Создать объявление</h2>
 <label style="background-color: darkred"> <c:out value="${error}"/></label>
 <form method="post" action="/create" style="vertical-align: middle;margin-left: 13%" >
     <input placeholder="Имя" required name="name"/>

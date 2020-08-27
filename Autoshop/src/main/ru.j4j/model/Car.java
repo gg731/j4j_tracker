@@ -1,6 +1,7 @@
 package model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "car")
@@ -22,6 +23,9 @@ public class Car {
 
     private int image;
 
+    @Temporal(TemporalType.DATE)
+    private Date date;
+
     public Car() {
     }
 
@@ -29,10 +33,11 @@ public class Car {
         this.name = name;
     }
 
-    public Car(String name, Model model, int price) {
+    public Car(String name, Model model, int price, Date date) {
         this.name = name;
         this.model = model;
         this.price = price;
+        this.date = date;
     }
 
     public int getId() {
@@ -77,5 +82,13 @@ public class Car {
 
     public void setImage(int image) {
         this.image = image;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

@@ -50,7 +50,7 @@
         </div>
     </nav>
 </div>
-<h2>Мои обьявления</h2>
+<h2>Мои объявления</h2>
 <table class="table table-sm table-dark">
     <thead>
     <tr>
