@@ -1,5 +1,6 @@
 package data;
 
+import model.Car;
 import model.Driver;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -70,22 +71,30 @@ public class AutoDB implements Store {
     }
 
     @Override
-    public List sortBy(String sort) {
-        try {
-            return tx(session ->
-                    session.createQuery("from Car order by " + sort).list());
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @Override
     public void update(Object e) {
         Session session = sf.openSession();
         session.beginTransaction();
         session.update(e);
         session.getTransaction().commit();
         session.close();
+    }
+
+    @Override
+    public List<Car> sortByDate() {
+        return tx(session ->
+                session.createQuery("from Car where date >= current_date").list());
+    }
+
+    @Override
+    public List<Car> sortByPhoto() {
+        return tx(session ->
+                session.createQuery("from Car where image != 0").list());
+    }
+
+    @Override
+    public List<Car> sortByBrand(int id) {
+        return tx(session ->
+                session.createQuery("from Car where model.brand.id=" + id).list());
     }
 
 }

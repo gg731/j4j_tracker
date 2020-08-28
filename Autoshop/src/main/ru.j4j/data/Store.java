@@ -1,6 +1,6 @@
 package data;
 
-import model.Brand;
+import model.Car;
 import model.Driver;
 
 import java.util.List;
@@ -16,6 +16,10 @@ public interface Store {
 
     void update(Object e);
 
-    List sortBy(String sort);
+    List<Car> sortByDate();
+
+    List<Car> sortByPhoto();
+
+    List<Car> sortByBrand(int id);
 
 }
