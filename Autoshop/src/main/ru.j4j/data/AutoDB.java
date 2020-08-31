@@ -64,7 +64,9 @@ public class AutoDB implements Store {
     public Driver findDriverByLogin(String login) {
         try {
             return (Driver) tx(session ->
-                    session.createQuery("from Driver where login = " + login).list().get(0));
+                    session.createQuery("from Driver where login =:login")
+                            .setParameter("login", login)
+                            .list().get(0));
         } catch (Exception e) {
             return null;
         }

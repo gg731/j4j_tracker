@@ -3,6 +3,7 @@ package model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "driver")
@@ -65,5 +66,20 @@ public class Driver {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Driver driver = (Driver) o;
+        return id == driver.id &&
+                Objects.equals(login, driver.login) &&
+                Objects.equals(pas, driver.pas);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, login, pas, car);
     }
 }
